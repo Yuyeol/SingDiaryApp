@@ -1,8 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { colors } from "@/constants";
-
-type KaraokeType = "TJ" | "금영";
+import { KaraokeType } from "@/app/types/popularSongs";
 
 interface Props {
   selectedType: KaraokeType;
@@ -15,14 +14,14 @@ const KaraokeTypeToggle = ({ selectedType, onTypeChange }: Props) => {
       <TouchableOpacity
         style={[
           styles.toggleButton,
-          selectedType === "TJ" && styles.selectedButton,
+          selectedType === "tj" && styles.selectedButton,
         ]}
-        onPress={() => onTypeChange("TJ")}
+        onPress={() => onTypeChange("tj")}
       >
         <Text
           style={[
             styles.toggleText,
-            selectedType === "TJ" && styles.selectedText,
+            selectedType === "tj" && styles.selectedText,
           ]}
         >
           TJ
@@ -31,14 +30,14 @@ const KaraokeTypeToggle = ({ selectedType, onTypeChange }: Props) => {
       <TouchableOpacity
         style={[
           styles.toggleButton,
-          selectedType === "금영" && styles.selectedButton,
+          selectedType === "ky" && styles.selectedButton,
         ]}
-        onPress={() => onTypeChange("금영")}
+        onPress={() => onTypeChange("ky")}
       >
         <Text
           style={[
             styles.toggleText,
-            selectedType === "금영" && styles.selectedText,
+            selectedType === "ky" && styles.selectedText,
           ]}
         >
           금영

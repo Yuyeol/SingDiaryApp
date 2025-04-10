@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import HeartButton from "@/components/common/HeartButton";
+import { PopularSong } from "@/app/types/popularSongs";
 
 export interface Song {
   id: string;
@@ -11,10 +12,10 @@ export interface Song {
 }
 
 interface Props {
-  song: Song;
+  song: PopularSong;
   index: number;
-  onPressSong: (song: Song) => void;
-  onToggleFavorite: (id: string) => void;
+  onPressSong: (song: PopularSong) => void;
+  onToggleFavorite: (id: number) => void;
 }
 
 const SongItem: React.FC<Props> = ({
@@ -41,11 +42,11 @@ const SongItem: React.FC<Props> = ({
           <Text style={styles.number}>{song.number}</Text>
         </View>
         <Text style={styles.artist} numberOfLines={1}>
-          {song.artist}
+          {song.singer}
         </Text>
       </View>
       <HeartButton
-        isFavorite={song.isFavorite}
+        isFavorite={false}
         onToggle={() => onToggleFavorite(song.id)}
       />
     </TouchableOpacity>
