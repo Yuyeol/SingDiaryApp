@@ -1,49 +1,81 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
-  TextInput,
   StyleSheet,
   TouchableOpacity,
   Text,
+  Modal,
+  Pressable,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { colors } from "@/constants";
+import InputField from "@/components/common/InputField";
+import { SearchCategory } from "@/app/types";
+import SearchPicker from "@/components/common/SearchPicker";
 
-interface SearchBarProps {
+interface Props {
   value: string;
   onChangeText: (text: string) => void;
   onSearch: () => void;
   placeholder?: string;
-  category?: string;
+  category: SearchCategory;
+  onCategoryChange: (category: SearchCategory) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({
+const SearchBar = ({
   value,
   onChangeText,
   onSearch,
   placeholder = "노래 검색",
-  category = "곡명",
-}) => {
+  category,
+  onCategoryChange,
+}: Props) => {
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
+
+  // 카테고리 레이블 가져오기
+  const getCategoryLabel = (cat: SearchCategory) => {
+    switch (cat) {
+      case "title":
+        return "곡명";
+      case "singer":
+        return "가수";
+      default:
+        return "곡명";
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
-        <View style={styles.categoryContainer}>
-          <Text style={styles.category}>{category}</Text>
+        <TouchableOpacity
+          style={styles.categoryContainer}
+          onPress={() => setIsPickerOpen(true)}
+        >
+          <Text style={styles.category}>{getCategoryLabel(category)}</Text>
           <Ionicons name="chevron-down" size={16} color="#333" />
-        </View>
-        <TextInput
-          style={styles.input}
+        </TouchableOpacity>
+
+        <InputField
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
           placeholderTextColor="#999"
           returnKeyType="search"
           onSubmitEditing={onSearch}
+          variant="search"
         />
+
         <TouchableOpacity onPress={onSearch} style={styles.searchButton}>
           <Ionicons name="search" size={24} color="#333" />
         </TouchableOpacity>
       </View>
+
+      {/* Picker 모달 */}
+      <SearchPicker
+        isPickerOpen={isPickerOpen}
+        setIsPickerOpen={setIsPickerOpen}
+        category={category}
+        onCategoryChange={onCategoryChange}
+      />
     </View>
   );
 };
@@ -72,14 +104,39 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "500",
   },
-  input: {
-    flex: 1,
-    height: 40,
-    color: "#333",
-    fontSize: 16,
-  },
   searchButton: {
     padding: 8,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  pickerContainer: {
+    width: 300,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+  },
+  pickerHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eaeaea",
+  },
+  pickerTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#333",
+  },
+  closeButton: {
+    padding: 0,
+  },
+  picker: {
+    width: "100%",
   },
 });
 

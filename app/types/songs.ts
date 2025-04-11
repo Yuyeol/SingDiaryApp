@@ -1,5 +1,6 @@
 export interface TjSongResponse {
-  songs: TjSong[];
+  title: TjSong[];
+  singer: TjSong[];
   success: boolean;
 }
 
@@ -13,7 +14,8 @@ export interface TjSong {
 }
 
 export interface KySongResponse {
-  songs: KySong[];
+  title: KySong[];
+  singer: KySong[];
   success: boolean;
 }
 

@@ -1,15 +1,26 @@
 import React, { useState } from "react";
-import { SafeAreaView, View, Text, StyleSheet } from "react-native";
+import { SafeAreaView, View, StyleSheet } from "react-native";
 import KaraokeToggle from "@/components/KaraokeToggle";
 import SearchBar from "@/components/SearchBar";
-import { KaraokeType } from "@/app/types";
+import { KaraokeType, SearchCategory } from "@/app/types";
+import useSearchedSongs from "@/hooks/queries/useSearchedSongs";
+import SongList from "@/components/SongList/SongList";
 
 export default function HomeScreen() {
   const [karaokeType, setKaraokeType] = useState<KaraokeType>("tj");
+  const [searchCategory, setSearchCategory] = useState<SearchCategory>("title");
   const [searchTerm, setSearchTerm] = useState("");
 
+  const { data, isLoading, isError, refetch } = useSearchedSongs(
+    karaokeType,
+    searchCategory,
+    searchTerm
+  );
+  const searchedSongs = searchCategory === "title" ? data?.title : data?.singer;
+  console.log(data);
+
   const handleSearch = () => {
-    console.log(`검색어: ${searchTerm}, 타입: ${karaokeType}`);
+    refetch();
   };
 
   const handleTypeChange = (type: KaraokeType) => {
@@ -28,11 +39,17 @@ export default function HomeScreen() {
           value={searchTerm}
           onChangeText={setSearchTerm}
           onSearch={handleSearch}
+          category={searchCategory}
+          onCategoryChange={setSearchCategory}
         />
 
-        <View style={styles.centered}>
-          <Text style={styles.emptyText}>검색어를 입력해 주세요</Text>
-        </View>
+        <SongList
+          songs={searchedSongs}
+          onPressSong={() => {}}
+          onToggleFavorite={() => {}}
+          isLoading={isLoading}
+          isError={isError}
+        />
       </View>
     </SafeAreaView>
   );
