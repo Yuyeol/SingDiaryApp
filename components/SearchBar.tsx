@@ -15,7 +15,6 @@ import SearchPicker from "@/components/common/SearchPicker";
 interface Props {
   value: string;
   onChangeText: (text: string) => void;
-  onSearch: () => void;
   placeholder?: string;
   category: SearchCategory;
   onCategoryChange: (category: SearchCategory) => void;
@@ -24,7 +23,6 @@ interface Props {
 const SearchBar = ({
   value,
   onChangeText,
-  onSearch,
   placeholder = "노래 검색",
   category,
   onCategoryChange,
@@ -60,16 +58,9 @@ const SearchBar = ({
           placeholder={placeholder}
           placeholderTextColor="#999"
           returnKeyType="search"
-          onSubmitEditing={onSearch}
           variant="search"
         />
-
-        <TouchableOpacity onPress={onSearch} style={styles.searchButton}>
-          <Ionicons name="search" size={24} color="#333" />
-        </TouchableOpacity>
       </View>
-
-      {/* Picker 모달 */}
       <SearchPicker
         isPickerOpen={isPickerOpen}
         setIsPickerOpen={setIsPickerOpen}

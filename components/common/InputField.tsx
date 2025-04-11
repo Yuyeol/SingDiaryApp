@@ -24,5 +24,5 @@ const styles = StyleSheet.create({
     color: "#333",
     flex: 1,
   },
-  search: {},
+  search: { paddingVertical: 8 },
 });
