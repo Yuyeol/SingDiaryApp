@@ -8,8 +8,9 @@ import {
 } from "react-native";
 import KaraokeTypeToggle from "@/components/KaraokeToggle";
 import SongList from "@/components/SongList/SongList";
-import { KaraokeType, PopularSong } from "@/app/types/popularSongs";
+import { PopularSong } from "@/app/types/popularSongs";
 import usePopularSongs from "@/hooks/queries/usePopularSongs";
+import { KaraokeType } from "@/app/types";
 
 export default function PopularScreen() {
   const [karaokeType, setKaraokeType] = useState<KaraokeType>("tj");

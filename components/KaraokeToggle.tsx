@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { colors } from "@/constants";
-import { KaraokeType } from "@/app/types/popularSongs";
+import { KaraokeType } from "@/app/types";
 
 interface Props {
   selectedType: KaraokeType;
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "center",
-    marginVertical: 16,
+    marginTop: 16,
   },
   toggleButton: {
     paddingVertical: 8,

@@ -2,28 +2,20 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import HeartButton from "@/components/common/HeartButton";
 import { PopularSong } from "@/app/types/popularSongs";
+import { Song } from "@/app/types/songs";
 
-export interface Song {
-  id: string;
-  number: string;
-  title: string;
-  artist: string;
-  isFavorite: boolean;
-}
-
-interface Props {
-  song: PopularSong;
-  index: number;
-  onPressSong: (song: PopularSong) => void;
+interface Props<T> {
+  song: T;
+  onPressSong: (song: T) => void;
   onToggleFavorite: (id: number) => void;
+  showRank?: boolean;
 }
 
-const SongItem: React.FC<Props> = ({
+function SongItem<T extends Song | PopularSong>({
   song,
-  index,
   onPressSong,
   onToggleFavorite,
-}: Props) => {
+}: Props<T>) {
   if (!song) {
     return null;
   }
@@ -33,7 +25,6 @@ const SongItem: React.FC<Props> = ({
       style={styles.container}
       onPress={() => onPressSong(song)}
     >
-      <Text style={styles.rank}>{index + 1}</Text>
       <View style={styles.songInfo}>
         <View style={styles.titleRow}>
           <Text style={styles.title} numberOfLines={1}>
@@ -51,7 +42,7 @@ const SongItem: React.FC<Props> = ({
       />
     </TouchableOpacity>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

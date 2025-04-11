@@ -1,9 +1,9 @@
-export interface TjPopularSongResponse {
-  songs: TjPopularSong[];
+export interface TjSongResponse {
+  songs: TjSong[];
   success: boolean;
 }
 
-export interface TjPopularSong {
+export interface TjSong {
   id: number;
   rank: number;
   number: string;
@@ -12,12 +12,12 @@ export interface TjPopularSong {
   created_at: string;
 }
 
-export interface KyPopularSongResponse {
-  songs: KyPopularSong[];
+export interface KySongResponse {
+  songs: KySong[];
   success: boolean;
 }
 
-export interface KyPopularSong {
+export interface KySong {
   id: number;
   rank: number;
   number: string;
@@ -30,4 +30,4 @@ export interface KyPopularSong {
   created_at: string;
 }
 
-export type PopularSong = TjPopularSong | KyPopularSong;
+export type Song = TjSong | KySong;
