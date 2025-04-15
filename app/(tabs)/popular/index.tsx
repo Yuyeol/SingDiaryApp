@@ -1,33 +1,31 @@
 import React, { useState, useCallback } from "react";
-import {
-  View,
-  StyleSheet,
-  SafeAreaView,
-  ActivityIndicator,
-  Text,
-} from "react-native";
+import { View, StyleSheet, SafeAreaView } from "react-native";
 import KaraokeTypeToggle from "@/components/KaraokeToggle";
 import SongList from "@/components/SongList/SongList";
-import { PopularSong } from "@/app/types/popularSongs";
 import usePopularSongs from "@/hooks/queries/usePopularSongs";
 import { KaraokeType } from "@/app/types";
+import { useFavoriteSongs } from "@/hooks/useFavoriteSongs";
 
 export default function PopularScreen() {
   const [karaokeType, setKaraokeType] = useState<KaraokeType>("tj");
   const { data, isLoading, isError } = usePopularSongs(karaokeType);
   const songs = data?.songs;
-
-  const handlePressSong = useCallback((song: PopularSong) => {
-    console.log("Selected song:", song);
-  }, []);
+  const { getIsFavoriteSong, toggleFavoriteSong } = useFavoriteSongs();
 
   const handleTypeChange = useCallback((type: KaraokeType) => {
     setKaraokeType(type);
   }, []);
 
-  const handleToggleFavorite = useCallback((id: number) => {
-    console.log("Toggled favorite for song:", id);
-  }, []);
+  const handleToggleFavorite = useCallback(
+    (id: number) => {
+      if (!songs) return;
+      const song = songs.find((song) => song.id === id);
+      if (song) {
+        toggleFavoriteSong(song);
+      }
+    },
+    [songs, toggleFavoriteSong]
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -38,10 +36,10 @@ export default function PopularScreen() {
         />
         <SongList
           songs={songs}
-          onPressSong={handlePressSong}
           onToggleFavorite={handleToggleFavorite}
           isLoading={isLoading}
           isError={isError}
+          getIsFavoriteSong={getIsFavoriteSong}
         />
       </View>
     </SafeAreaView>

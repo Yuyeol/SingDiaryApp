@@ -1,9 +1,11 @@
 import axios from "axios";
 import { Platform } from "react-native";
 
+const baseUrl = process.env.EXPO_PUBLIC_API_URL;
+
 export const baseUrls = {
-  android: "http://10.40.200.134:8080",
-  ios: "http://10.40.200.134:8080",
+  android: baseUrl,
+  ios: baseUrl,
 };
 
 const axiosInstance = axios.create({

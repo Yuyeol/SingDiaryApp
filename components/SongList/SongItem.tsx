@@ -6,25 +6,22 @@ import { Song } from "@/app/types/songs";
 
 interface Props<T> {
   song: T;
-  onPressSong: (song: T) => void;
   onToggleFavorite: (id: number) => void;
   showRank?: boolean;
+  isFavorite?: boolean;
 }
 
 function SongItem<T extends Song | PopularSong>({
   song,
-  onPressSong,
   onToggleFavorite,
+  isFavorite = false,
 }: Props<T>) {
   if (!song) {
     return null;
   }
 
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => onPressSong(song)}
-    >
+    <TouchableOpacity style={styles.container} onPress={() => {}}>
       <View style={styles.songInfo}>
         <View style={styles.titleRow}>
           <Text style={styles.title} numberOfLines={1}>
@@ -37,7 +34,7 @@ function SongItem<T extends Song | PopularSong>({
         </Text>
       </View>
       <HeartButton
-        isFavorite={false}
+        isFavorite={isFavorite}
         onToggle={() => onToggleFavorite(song.id)}
       />
     </TouchableOpacity>

@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  useRef,
-  useMemo,
-} from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { SafeAreaView, View, StyleSheet } from "react-native";
 import KaraokeToggle from "@/components/KaraokeToggle";
 import SearchBar from "@/components/SearchBar";
@@ -12,12 +6,13 @@ import { KaraokeType, SearchCategory } from "@/app/types";
 import useSearchedSongs from "@/hooks/queries/useSearchedSongs";
 import SongList from "@/components/SongList/SongList";
 import { debounce } from "lodash";
+import { useFavoriteSongs } from "@/hooks/useFavoriteSongs";
 
 export default function HomeScreen() {
   const [karaokeType, setKaraokeType] = useState<KaraokeType>("tj");
   const [searchCategory, setSearchCategory] = useState<SearchCategory>("title");
   const [searchTerm, setSearchTerm] = useState("");
-
+  const { toggleFavoriteSong, getIsFavoriteSong } = useFavoriteSongs();
   const { data, isLoading, isError, refetch } = useSearchedSongs(
     karaokeType,
     searchCategory,
@@ -44,6 +39,17 @@ export default function HomeScreen() {
     setKaraokeType(type);
   };
 
+  const handleToggleFavorite = useCallback(
+    (id: number) => {
+      if (!searchedSongs) return;
+      const song = searchedSongs.find((song) => song.id === id);
+      if (song) {
+        toggleFavoriteSong(song);
+      }
+    },
+    [searchedSongs, toggleFavoriteSong]
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
@@ -61,10 +67,10 @@ export default function HomeScreen() {
 
         <SongList
           songs={searchedSongs}
-          onPressSong={() => {}}
-          onToggleFavorite={() => {}}
+          onToggleFavorite={handleToggleFavorite}
           isLoading={isLoading}
           isError={isError}
+          getIsFavoriteSong={getIsFavoriteSong}
         />
       </View>
     </SafeAreaView>

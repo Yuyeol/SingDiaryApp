@@ -12,18 +12,18 @@ import { Song } from "@/app/types/songs";
 
 interface Props<T> {
   songs: T[] | undefined;
-  onPressSong: (song: T) => void;
   onToggleFavorite: (id: number) => void;
   isLoading: boolean;
   isError: boolean;
+  getIsFavoriteSong?: (id: number) => boolean;
 }
 
 function SongList<T extends Song | PopularSong>({
   songs,
-  onPressSong,
   onToggleFavorite,
   isLoading,
   isError,
+  getIsFavoriteSong,
 }: Props<T>) {
   if (isLoading)
     return (
@@ -54,8 +54,8 @@ function SongList<T extends Song | PopularSong>({
       renderItem={({ item }) => (
         <SongItem
           song={item}
-          onPressSong={() => onPressSong(item)}
           onToggleFavorite={onToggleFavorite}
+          isFavorite={getIsFavoriteSong ? getIsFavoriteSong(item.id) : false}
         />
       )}
       contentContainerStyle={styles.listContent}
