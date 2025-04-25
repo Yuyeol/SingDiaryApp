@@ -4,21 +4,22 @@ import HeartButton from "@/components/common/HeartButton";
 import { PopularSong } from "@/app/types/popularSongs";
 import { Song } from "@/app/types/songs";
 import { colors } from "@/constants";
-
+import useFavoriteSongsStore from "@/store/favoriteSongs";
 interface Props<T> {
   song: T;
   onToggleFavorite: (id: number) => void;
   showRank?: boolean;
-  isFavorite?: boolean;
   onPress?: (song: T) => void;
 }
 
 function SongItem<T extends Song | PopularSong>({
   song,
   onToggleFavorite,
-  isFavorite = false,
   onPress,
 }: Props<T>) {
+  const isFavorite = useFavoriteSongsStore((state) =>
+    state.getIsFavoriteSong(song.id)
+  );
   if (!song) {
     return null;
   }

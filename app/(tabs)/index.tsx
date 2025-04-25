@@ -6,13 +6,18 @@ import { KaraokeType, SearchCategory } from "@/app/types";
 import useSearchedSongs from "@/hooks/queries/useSearchedSongs";
 import SongList from "@/components/SongList/SongList";
 import { debounce } from "lodash";
-import { useFavoriteSongs } from "@/hooks/useFavoriteSongs";
+import useFavoriteSongsStore from "@/store/favoriteSongs";
 
 export default function HomeScreen() {
   const [karaokeType, setKaraokeType] = useState<KaraokeType>("tj");
   const [searchCategory, setSearchCategory] = useState<SearchCategory>("title");
   const [searchTerm, setSearchTerm] = useState("");
-  const { toggleFavoriteSong, getIsFavoriteSong } = useFavoriteSongs();
+  const toggleFavoriteSong = useFavoriteSongsStore(
+    (state) => state.toggleFavoriteSong
+  );
+  const getIsFavoriteSong = useFavoriteSongsStore(
+    (state) => state.getIsFavoriteSong
+  );
   const { data, isLoading, isError, refetch } = useSearchedSongs(
     karaokeType,
     searchCategory,
@@ -70,7 +75,6 @@ export default function HomeScreen() {
           onToggleFavorite={handleToggleFavorite}
           isLoading={isLoading}
           isError={isError}
-          getIsFavoriteSong={getIsFavoriteSong}
         />
       </View>
     </SafeAreaView>

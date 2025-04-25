@@ -4,13 +4,15 @@ import KaraokeTypeToggle from "@/components/KaraokeToggle";
 import SongList from "@/components/SongList/SongList";
 import usePopularSongs from "@/hooks/queries/usePopularSongs";
 import { KaraokeType } from "@/app/types";
-import { useFavoriteSongs } from "@/hooks/useFavoriteSongs";
+import useFavoriteSongsStore from "@/store/favoriteSongs";
 
 export default function PopularScreen() {
   const [karaokeType, setKaraokeType] = useState<KaraokeType>("tj");
   const { data, isLoading, isError } = usePopularSongs(karaokeType);
   const songs = data?.songs;
-  const { getIsFavoriteSong, toggleFavoriteSong } = useFavoriteSongs();
+  const toggleFavoriteSong = useFavoriteSongsStore(
+    (state) => state.toggleFavoriteSong
+  );
 
   const handleTypeChange = useCallback((type: KaraokeType) => {
     setKaraokeType(type);
@@ -39,7 +41,6 @@ export default function PopularScreen() {
           onToggleFavorite={handleToggleFavorite}
           isLoading={isLoading}
           isError={isError}
-          getIsFavoriteSong={getIsFavoriteSong}
         />
       </View>
     </SafeAreaView>

@@ -13,13 +13,13 @@ import {
   useRouter,
   useFocusEffect,
 } from "expo-router";
-import { useFavoriteSongs } from "@/hooks/useFavoriteSongs";
+import useFavoriteSongsStore from "@/store/favoriteSongs";
 import { AntDesign } from "@expo/vector-icons";
 
 export default function SongDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const { favoriteSongs } = useFavoriteSongs();
+  const favoriteSongs = useFavoriteSongsStore((state) => state.favoriteSongs);
   const [song, setSong] = useState<any>(null);
 
   // 화면이 포커스될 때마다 데이터 새로고침

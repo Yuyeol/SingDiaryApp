@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 import { QueryClientProvider } from "@tanstack/react-query";
 import queryClient from "@/api/queryClient";
+import useFavoriteSongsStore from "@/store/favoriteSongs";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -18,10 +19,6 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
 
   return (
     <QueryClientProvider client={queryClient}>

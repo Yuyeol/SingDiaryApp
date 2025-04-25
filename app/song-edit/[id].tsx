@@ -10,12 +10,13 @@ import {
   Alert,
 } from "react-native";
 import { useLocalSearchParams, Stack, useRouter } from "expo-router";
-import { useFavoriteSongs } from "@/hooks/useFavoriteSongs";
-import { FavoriteSong } from "@/hooks/useFavoriteSongs";
+import useFavoriteSongsStore, { FavoriteSong } from "@/store/favoriteSongs";
+
 export default function SongEditScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const { favoriteSongs, updateSongInfo } = useFavoriteSongs();
+  const favoriteSongs = useFavoriteSongsStore((state) => state.favoriteSongs);
+  const updateSongInfo = useFavoriteSongsStore((state) => state.updateSongInfo);
   const [song, setSong] = useState<FavoriteSong | null>(null);
   const [vocalGender, setVocalGender] = useState<string>("남");
   const [vocalKey, setVocalKey] = useState<string>("0");

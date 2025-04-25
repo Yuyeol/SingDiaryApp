@@ -1,13 +1,17 @@
 import React, { useCallback } from "react";
 import { SafeAreaView, StyleSheet, View, Text } from "react-native";
-import { useFavoriteSongs } from "@/hooks/useFavoriteSongs";
+import useFavoriteSongsStore from "@/store/favoriteSongs";
 import SongList from "@/components/SongList/SongList";
 import { useRouter } from "expo-router";
 import { Song } from "@/app/types/songs";
 import { PopularSong } from "@/app/types/popularSongs";
 
 export default function MyScreen() {
-  const { favoriteSongs, isLoading, toggleFavoriteSong } = useFavoriteSongs();
+  const favoriteSongs = useFavoriteSongsStore((state) => state.favoriteSongs);
+  const isLoading = useFavoriteSongsStore((state) => state.isLoading);
+  const toggleFavoriteSong = useFavoriteSongsStore(
+    (state) => state.toggleFavoriteSong
+  );
   const router = useRouter();
 
   const handleToggleFavorite = useCallback(
@@ -40,7 +44,6 @@ export default function MyScreen() {
         onToggleFavorite={handleToggleFavorite}
         isLoading={isLoading}
         isError={false}
-        getIsFavoriteSong={() => true} // 무조건 좋아요가 true이므로
         onSongPress={handleSongPress}
       />
     </SafeAreaView>
