@@ -1,10 +1,10 @@
 import getPopularSongs from "@/api/popularSongs";
 import { useQuery } from "@tanstack/react-query";
 
-const usePopularSongs = (karaokeType: string) => {
+const usePopularSongs = (brand: string) => {
   return useQuery({
-    queryKey: ["popularSongs", karaokeType],
-    queryFn: () => getPopularSongs(karaokeType),
+    queryKey: ["popularSongs", brand],
+    queryFn: () => getPopularSongs(brand),
   });
 };
 

@@ -1,27 +1,27 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { colors } from "@/constants";
-import { KaraokeType } from "@/app/types";
+import { Brand } from "@/app/types";
 
 interface Props {
-  selectedType: KaraokeType;
-  onTypeChange: (type: KaraokeType) => void;
+  selectedBrand: Brand;
+  onBrandChange: (type: Brand) => void;
 }
 
-const KaraokeTypeToggle = ({ selectedType, onTypeChange }: Props) => {
+const BrandToggle = ({ selectedBrand, onBrandChange }: Props) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={[
           styles.toggleButton,
-          selectedType === "tj" && styles.selectedButton,
+          selectedBrand === "tj" && styles.selectedButton,
         ]}
-        onPress={() => onTypeChange("tj")}
+        onPress={() => onBrandChange("tj")}
       >
         <Text
           style={[
             styles.toggleText,
-            selectedType === "tj" && styles.selectedText,
+            selectedBrand === "tj" && styles.selectedText,
           ]}
         >
           TJ
@@ -30,14 +30,14 @@ const KaraokeTypeToggle = ({ selectedType, onTypeChange }: Props) => {
       <TouchableOpacity
         style={[
           styles.toggleButton,
-          selectedType === "ky" && styles.selectedButton,
+          selectedBrand === "ky" && styles.selectedButton,
         ]}
-        onPress={() => onTypeChange("ky")}
+        onPress={() => onBrandChange("ky")}
       >
         <Text
           style={[
             styles.toggleText,
-            selectedType === "ky" && styles.selectedText,
+            selectedBrand === "ky" && styles.selectedText,
           ]}
         >
           금영
@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default KaraokeTypeToggle;
+export default BrandToggle;

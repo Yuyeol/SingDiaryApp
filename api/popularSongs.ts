@@ -4,9 +4,9 @@ import {
   KyPopularSongResponse,
 } from "@/app/types/popularSongs";
 
-async function getPopularSongs(karaokeType: string) {
-  const { data } = await axiosInstance.get(`/popular-songs/${karaokeType}`);
-  return karaokeType === "tj"
+async function getPopularSongs(brand: string) {
+  const { data } = await axiosInstance.get(`/popular-songs/${brand}`);
+  return brand === "tj"
     ? (data as TjPopularSongResponse)
     : (data as KyPopularSongResponse);
 }

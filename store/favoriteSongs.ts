@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { Song } from "@/app/types/songs";
 import { PopularSong } from "@/app/types/popularSongs";
+import { Brand } from "@/app/types";
 
 const FAVORITE_SONGS_KEY = "@SingDiary:FavoriteSongs";
 
@@ -11,13 +12,17 @@ export type FavoriteSong = (Song | PopularSong) & {
   vocalGender?: string;
   vocalKey?: string;
   memo?: string;
+  brand: Brand;
 };
 
 interface FavoriteSongsState {
   favoriteSongs: FavoriteSong[];
   isLoading: boolean;
   getIsFavoriteSong: (id: number) => boolean;
-  toggleFavoriteSong: (song: any) => Promise<FavoriteSong[]>;
+  toggleFavoriteSong: (
+    song: Song | PopularSong,
+    brand: Brand
+  ) => Promise<FavoriteSong[]>;
   updateSongInfo: (
     songId: number,
     songInfo: { vocalGender?: string; vocalKey?: string; memo?: string }
@@ -34,7 +39,7 @@ const useFavoriteSongsStore = create<FavoriteSongsState>()(
         return get().favoriteSongs.some((song) => song.id === id);
       },
 
-      toggleFavoriteSong: async (song) => {
+      toggleFavoriteSong: async (song, brand) => {
         try {
           const { favoriteSongs, getIsFavoriteSong } = get();
           let updatedFavoriteSongs: FavoriteSong[];
@@ -47,6 +52,7 @@ const useFavoriteSongsStore = create<FavoriteSongsState>()(
             const favoriteSong: FavoriteSong = {
               ...song,
               isFavorite: true,
+              brand,
             };
             updatedFavoriteSongs = [...favoriteSongs, favoriteSong];
           }

@@ -1,15 +1,15 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { SafeAreaView, View, StyleSheet } from "react-native";
-import KaraokeToggle from "@/components/KaraokeToggle";
 import SearchBar from "@/components/SearchBar";
-import { KaraokeType, SearchCategory } from "@/app/types";
+import { Brand, SearchCategory } from "@/app/types";
 import useSearchedSongs from "@/hooks/queries/useSearchedSongs";
 import SongList from "@/components/SongList/SongList";
 import { debounce } from "lodash";
 import useFavoriteSongsStore from "@/store/favoriteSongs";
+import BrandToggle from "@/components/BrandToggle";
 
 export default function HomeScreen() {
-  const [karaokeType, setKaraokeType] = useState<KaraokeType>("tj");
+  const [brand, setBrand] = useState<Brand>("tj");
   const [searchCategory, setSearchCategory] = useState<SearchCategory>("title");
   const [searchTerm, setSearchTerm] = useState("");
   const toggleFavoriteSong = useFavoriteSongsStore(
@@ -19,7 +19,7 @@ export default function HomeScreen() {
     (state) => state.getIsFavoriteSong
   );
   const { data, isLoading, isError, refetch } = useSearchedSongs(
-    karaokeType,
+    brand,
     searchCategory,
     searchTerm
   );
@@ -40,8 +40,8 @@ export default function HomeScreen() {
     debouncedRefetch();
   };
 
-  const handleTypeChange = (type: KaraokeType) => {
-    setKaraokeType(type);
+  const handleTypeChange = (type: Brand) => {
+    setBrand(type);
   };
 
   const handleToggleFavorite = useCallback(
@@ -49,7 +49,7 @@ export default function HomeScreen() {
       if (!searchedSongs) return;
       const song = searchedSongs.find((song) => song.id === id);
       if (song) {
-        toggleFavoriteSong(song);
+        toggleFavoriteSong(song, brand);
       }
     },
     [searchedSongs, toggleFavoriteSong]
@@ -58,10 +58,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <KaraokeToggle
-          selectedType={karaokeType}
-          onTypeChange={handleTypeChange}
-        />
+        <BrandToggle selectedBrand={brand} onBrandChange={handleTypeChange} />
 
         <SearchBar
           value={searchTerm}

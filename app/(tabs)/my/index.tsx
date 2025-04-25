@@ -1,12 +1,15 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { SafeAreaView, StyleSheet, View, Text } from "react-native";
 import useFavoriteSongsStore from "@/store/favoriteSongs";
 import SongList from "@/components/SongList/SongList";
 import { useRouter } from "expo-router";
 import { Song } from "@/app/types/songs";
 import { PopularSong } from "@/app/types/popularSongs";
+import { Brand } from "@/app/types";
+import BrandToggle from "@/components/BrandToggle";
 
 export default function MyScreen() {
+  const [brand, setBrand] = useState<Brand>("tj");
   const favoriteSongs = useFavoriteSongsStore((state) => state.favoriteSongs);
   const isLoading = useFavoriteSongsStore((state) => state.isLoading);
   const toggleFavoriteSong = useFavoriteSongsStore(
@@ -14,14 +17,18 @@ export default function MyScreen() {
   );
   const router = useRouter();
 
+  const handleTypeChange = useCallback((type: Brand) => {
+    setBrand(type);
+  }, []);
+
   const handleToggleFavorite = useCallback(
     (id: number) => {
       const song = favoriteSongs.find((song) => song.id === id);
       if (song) {
-        toggleFavoriteSong(song);
+        toggleFavoriteSong(song, brand);
       }
     },
-    [favoriteSongs, toggleFavoriteSong]
+    [favoriteSongs, toggleFavoriteSong, brand]
   );
 
   const handleSongPress = useCallback(
@@ -34,13 +41,20 @@ export default function MyScreen() {
     [router]
   );
 
+  const getFavoriteSongsByKaraoke = useCallback(() => {
+    return brand === "ky"
+      ? favoriteSongs.filter((song) => song.brand === "ky")
+      : favoriteSongs.filter((song) => song.brand === "tj");
+  }, [favoriteSongs, brand]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>내가 좋아하는 노래</Text>
       </View>
+      <BrandToggle selectedBrand={brand} onBrandChange={handleTypeChange} />
       <SongList
-        songs={favoriteSongs}
+        songs={getFavoriteSongsByKaraoke()}
         onToggleFavorite={handleToggleFavorite}
         isLoading={isLoading}
         isError={false}
