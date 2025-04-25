@@ -16,6 +16,7 @@ interface Props<T> {
   isLoading: boolean;
   isError: boolean;
   getIsFavoriteSong?: (id: number) => boolean;
+  onSongPress?: (song: T) => void;
 }
 
 function SongList<T extends Song | PopularSong>({
@@ -24,6 +25,7 @@ function SongList<T extends Song | PopularSong>({
   isLoading,
   isError,
   getIsFavoriteSong,
+  onSongPress,
 }: Props<T>) {
   if (isLoading)
     return (
@@ -56,6 +58,7 @@ function SongList<T extends Song | PopularSong>({
           song={item}
           onToggleFavorite={onToggleFavorite}
           isFavorite={getIsFavoriteSong ? getIsFavoriteSong(item.id) : false}
+          onPress={onSongPress}
         />
       )}
       contentContainerStyle={styles.listContent}

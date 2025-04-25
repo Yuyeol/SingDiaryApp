@@ -3,35 +3,41 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import HeartButton from "@/components/common/HeartButton";
 import { PopularSong } from "@/app/types/popularSongs";
 import { Song } from "@/app/types/songs";
+import { colors } from "@/constants";
 
 interface Props<T> {
   song: T;
   onToggleFavorite: (id: number) => void;
   showRank?: boolean;
   isFavorite?: boolean;
+  onPress?: (song: T) => void;
 }
 
 function SongItem<T extends Song | PopularSong>({
   song,
   onToggleFavorite,
   isFavorite = false,
+  onPress,
 }: Props<T>) {
   if (!song) {
     return null;
   }
 
   return (
-    <TouchableOpacity style={styles.container} onPress={() => {}}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => onPress && onPress(song)}
+    >
       <View style={styles.songInfo}>
-        <View style={styles.titleRow}>
+        <Text style={styles.number}>{song.number}</Text>
+        <View style={styles.songInfoCol}>
           <Text style={styles.title} numberOfLines={1}>
             {song.title}
           </Text>
-          <Text style={styles.number}>{song.number}</Text>
+          <Text style={styles.artist} numberOfLines={1}>
+            {song.singer}
+          </Text>
         </View>
-        <Text style={styles.artist} numberOfLines={1}>
-          {song.singer}
-        </Text>
       </View>
       <HeartButton
         isFavorite={isFavorite}
@@ -59,12 +65,18 @@ const styles = StyleSheet.create({
   songInfo: {
     flex: 1,
     marginLeft: 8,
-  },
-  titleRow: {
+    marginRight: 16,
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 4,
+    alignItems: "center",
+    gap: 16,
   },
+  number: {
+    fontSize: 16,
+    color: colors.BLACK,
+    fontWeight: "bold",
+    width: 54,
+  },
+  songInfoCol: { flex: 1 },
   title: {
     flex: 1,
     fontSize: 15,
@@ -72,10 +84,7 @@ const styles = StyleSheet.create({
     color: "#000",
     marginRight: 8,
   },
-  number: {
-    fontSize: 13,
-    color: "#888",
-  },
+
   artist: {
     fontSize: 13,
     color: "#666",

@@ -3,7 +3,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Song } from "@/app/types/songs";
 import { PopularSong } from "@/app/types/popularSongs";
 
-type FavoriteSong = (Song | PopularSong) & { isFavorite: boolean };
+export type FavoriteSong = (Song | PopularSong) & {
+  isFavorite: boolean;
+  vocalGender?: string;
+  vocalKey?: string;
+  memo?: string;
+};
 
 const FAVORITE_SONGS_KEY = "@SingDiary:FavoriteSongs";
 
@@ -67,6 +72,42 @@ export const useFavoriteSongs = () => {
     [favoriteSongs, getIsFavoriteSong, saveFavoriteSongs]
   );
 
+  // 노래의 추가 정보 업데이트 함수
+  const updateSongInfo = useCallback(
+    async (
+      songId: number,
+      songInfo: { vocalGender?: string; vocalKey?: string; memo?: string }
+    ) => {
+      try {
+        // 노래가 즐겨찾기에 있는지 확인
+        if (!getIsFavoriteSong(songId)) {
+          throw new Error("노래가 즐겨찾기에 추가되어 있지 않습니다.");
+        }
+
+        // 노래 정보 업데이트
+        const updatedFavoriteSongs = favoriteSongs.map((song) => {
+          if (song.id === songId) {
+            return { ...song, ...songInfo };
+          }
+          return song;
+        });
+
+        // AsyncStorage에 먼저 저장
+        const jsonValue = JSON.stringify(updatedFavoriteSongs);
+        await AsyncStorage.setItem(FAVORITE_SONGS_KEY, jsonValue);
+
+        // 그 다음 상태 업데이트
+        setFavoriteSongs(updatedFavoriteSongs);
+
+        return updatedFavoriteSongs;
+      } catch (error) {
+        console.error("Failed to update song info:", error);
+        throw error; // 에러를 다시 던져서 UI에서 처리할 수 있도록 함
+      }
+    },
+    [favoriteSongs, getIsFavoriteSong]
+  );
+
   useEffect(() => {
     loadFavoriteSongs();
   }, [loadFavoriteSongs]);
@@ -76,5 +117,6 @@ export const useFavoriteSongs = () => {
     isLoading,
     getIsFavoriteSong,
     toggleFavoriteSong,
+    updateSongInfo,
   };
 };
