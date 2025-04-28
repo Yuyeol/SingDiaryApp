@@ -32,18 +32,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="my"
         options={{
-          title: "내 프로필",
+          title: "마이페이지",
           tabBarIcon: ({ color }: { color: string }) => (
             <FontAwesome name="user" size={24} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="setting"
-        options={{
-          title: "설정",
-          tabBarIcon: ({ color }: { color: string }) => (
-            <FontAwesome name="gear" size={24} color={color} />
           ),
         }}
       />

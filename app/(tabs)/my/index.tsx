@@ -50,7 +50,7 @@ export default function MyScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>내가 좋아하는 노래</Text>
+        <Text style={styles.title}>내가 저장한 노래</Text>
       </View>
       <BrandToggle selectedBrand={brand} onBrandChange={handleTypeChange} />
       <SongList

@@ -11,6 +11,9 @@ import {
 } from "react-native";
 import { useLocalSearchParams, Stack, useRouter } from "expo-router";
 import useFavoriteSongsStore, { FavoriteSong } from "@/store/favoriteSongs";
+import SongInfo from "@/components/FavoriteSong/SongInfo";
+import { colors } from "@/constants";
+import WideButton from "@/components/common/WideButton";
 
 export default function SongEditScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -69,7 +72,7 @@ export default function SongEditScreen() {
       <SafeAreaView style={styles.container}>
         <Stack.Screen
           options={{
-            title: "노래 정보 편집",
+            title: "메모 편집",
             headerBackTitle: "취소",
           }}
         />
@@ -84,24 +87,16 @@ export default function SongEditScreen() {
     <SafeAreaView style={styles.container}>
       <Stack.Screen
         options={{
-          title: "노래 정보 편집",
+          title: "메모 편집",
           headerBackTitle: "취소",
-          headerRight: () => (
-            <TouchableOpacity onPress={handleSave}>
-              <Text style={styles.saveButtonText}>저장</Text>
-            </TouchableOpacity>
-          ),
         }}
       />
 
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.songHeader}>
-          <Text style={styles.songTitle}>{song.title}</Text>
-          <Text style={styles.songArtist}>{song.singer}</Text>
-        </View>
+      <View style={styles.infoContainer}>
+        <SongInfo song={song} />
 
         {/* 성별 선택 */}
-        <Text style={styles.sectionTitle}>성별</Text>
+        <Text style={styles.title}>성별</Text>
         <View style={styles.genderTabContainer}>
           <TouchableOpacity
             style={[
@@ -138,41 +133,43 @@ export default function SongEditScreen() {
         </View>
 
         {/* 키 선택 */}
-        <Text style={styles.sectionTitle}>키</Text>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.keyTabScrollContainer}
-        >
-          {keyOptions.map((key) => (
-            <TouchableOpacity
-              key={key}
-              style={[styles.keyTab, vocalKey === key && styles.activeKeyTab]}
-              onPress={() => setVocalKey(key)}
-            >
-              <Text
-                style={[
-                  styles.keyTabText,
-                  vocalKey === key && styles.activeTabText,
-                ]}
+        <Text style={styles.title}>키</Text>
+        <View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.keyTabScrollContainer}
+          >
+            {keyOptions.map((key) => (
+              <TouchableOpacity
+                key={key}
+                style={[styles.keyTab, vocalKey === key && styles.activeKeyTab]}
+                onPress={() => setVocalKey(key)}
               >
-                {key}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+                <Text
+                  style={[
+                    styles.keyTabText,
+                    vocalKey === key && styles.activeTabText,
+                  ]}
+                >
+                  {key}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
 
-        {/* 메모 입력 */}
-        <Text style={styles.sectionTitle}>메모</Text>
+        <Text style={styles.title}>메모</Text>
         <TextInput
           style={styles.memoInput}
           multiline
-          numberOfLines={4}
-          placeholder="노래에 대한 메모를 입력하세요"
+          textAlignVertical="top"
+          placeholder="연습 하고 있는 음정과 감각을 기록해보세요."
           value={memo}
           onChangeText={setMemo}
         />
-      </ScrollView>
+        <WideButton label="저장" onPress={handleSave} />
+      </View>
     </SafeAreaView>
   );
 }
@@ -187,25 +184,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  scrollView: {
-    flex: 1,
+
+  infoContainer: {
     padding: 16,
+    paddingTop: 24,
+    flex: 1,
   },
-  songHeader: {
-    marginBottom: 24,
-  },
-  songTitle: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 8,
-  },
-  songArtist: {
-    fontSize: 18,
-    color: "#555",
-    marginBottom: 16,
-  },
-  sectionTitle: {
+  title: {
     fontSize: 18,
     fontWeight: "600",
     marginTop: 20,
@@ -215,6 +200,7 @@ const styles = StyleSheet.create({
   genderTabContainer: {
     flexDirection: "row",
     marginBottom: 15,
+    gap: 8,
   },
   genderTab: {
     flex: 1,
@@ -222,6 +208,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderColor: "#ddd",
+    borderRadius: 10,
   },
   activeGenderTab: {
     backgroundColor: "#FF6B57",
@@ -233,7 +220,7 @@ const styles = StyleSheet.create({
     color: "#555",
   },
   keyTabScrollContainer: {
-    paddingVertical: 10,
+    paddingBottom: 10,
   },
   keyTab: {
     paddingVertical: 10,
@@ -256,18 +243,38 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   memoInput: {
+    flex: 1,
     borderWidth: 1,
     borderColor: "#ddd",
-    borderRadius: 5,
-    padding: 10,
+    borderRadius: 8,
+    padding: 12,
     fontSize: 16,
-    minHeight: 120,
-    textAlignVertical: "top",
-    marginTop: 8,
+    minHeight: 150, // 최소 높이 설정
   },
   saveButtonText: {
     fontSize: 16,
     fontWeight: "bold",
     color: "#FF6B57",
+  },
+  editButton: {
+    marginTop: 16,
+    backgroundColor: colors.ORANGE_600,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  editButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+    marginLeft: 8,
   },
 });
