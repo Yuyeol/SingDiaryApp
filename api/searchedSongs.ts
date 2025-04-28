@@ -1,5 +1,5 @@
 import axiosInstance from "@/api/axios";
-import { KySongResponse, TjSongResponse } from "@/app/types/songs";
+import { KySongResponse, TjSongResponse } from "@/types/songs";
 
 async function getSearchedSongs(
   brand: string,

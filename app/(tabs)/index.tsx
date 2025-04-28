@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { SafeAreaView, View, StyleSheet } from "react-native";
 import SearchBar from "@/components/SearchBar";
-import { Brand, SearchCategory } from "@/app/types";
+import { Brand, SearchCategory } from "@/types";
 import useSearchedSongs from "@/hooks/queries/useSearchedSongs";
 import SongList from "@/components/SongList/SongList";
 import { debounce } from "lodash";

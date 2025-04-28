@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { colors } from "@/constants";
-import { Brand } from "@/app/types";
+import { Brand } from "@/types";
 
 interface Props {
   selectedBrand: Brand;

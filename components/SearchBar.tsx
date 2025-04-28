@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import InputField from "@/components/common/InputField";
-import { SearchCategory } from "@/app/types";
+import { SearchCategory } from "@/types";
 import SearchPicker from "@/components/common/SearchPicker";
 
 interface Props {

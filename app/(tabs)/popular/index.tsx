@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { View, StyleSheet, SafeAreaView } from "react-native";
 import SongList from "@/components/SongList/SongList";
 import usePopularSongs from "@/hooks/queries/usePopularSongs";
-import { Brand } from "@/app/types";
+import { Brand } from "@/types";
 import useFavoriteSongsStore from "@/store/favoriteSongs";
 import BrandToggle from "@/components/BrandToggle";
 

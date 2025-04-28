@@ -7,8 +7,8 @@ import {
   View,
 } from "react-native";
 import SongItem from "@/components/SongList/SongItem";
-import { PopularSong } from "@/app/types/popularSongs";
-import { Song } from "@/app/types/songs";
+import { PopularSong } from "@/types/popularSongs";
+import { Song } from "@/types/songs";
 
 interface Props<T> {
   songs: T[] | undefined;

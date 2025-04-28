@@ -2,7 +2,7 @@ import axiosInstance from "@/api/axios";
 import {
   TjPopularSongResponse,
   KyPopularSongResponse,
-} from "@/app/types/popularSongs";
+} from "@/types/popularSongs";
 
 async function getPopularSongs(brand: string) {
   const { data } = await axiosInstance.get(`/popular-songs/${brand}`);

@@ -3,9 +3,9 @@ import { SafeAreaView, StyleSheet, View, Text } from "react-native";
 import useFavoriteSongsStore from "@/store/favoriteSongs";
 import SongList from "@/components/SongList/SongList";
 import { useRouter } from "expo-router";
-import { Song } from "@/app/types/songs";
-import { PopularSong } from "@/app/types/popularSongs";
-import { Brand } from "@/app/types";
+import { Song } from "@/types/songs";
+import { PopularSong } from "@/types/popularSongs";
+import { Brand } from "@/types";
 import BrandToggle from "@/components/BrandToggle";
 
 export default function MyScreen() {

@@ -1,9 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { Song } from "@/app/types/songs";
-import { PopularSong } from "@/app/types/popularSongs";
-import { Brand } from "@/app/types";
+import { Song } from "@/types/songs";
+import { PopularSong } from "@/types/popularSongs";
+import { Brand } from "@/types";
 
 const FAVORITE_SONGS_KEY = "@SingDiary:FavoriteSongs";
 

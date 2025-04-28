@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import HeartButton from "@/components/common/HeartButton";
-import { PopularSong } from "@/app/types/popularSongs";
-import { Song } from "@/app/types/songs";
+import { PopularSong } from "@/types/popularSongs";
+import { Song } from "@/types/songs";
 import { colors } from "@/constants";
 import useFavoriteSongsStore from "@/store/favoriteSongs";
 interface Props<T> {
