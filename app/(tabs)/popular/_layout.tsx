@@ -1,7 +1,7 @@
 import { colors } from "@/constants";
 import { Stack } from "expo-router";
 
-export default function SettingLayout() {
+export default function PopularLayout() {
   return (
     <Stack
       screenOptions={{
@@ -15,7 +15,7 @@ export default function SettingLayout() {
         name="index"
         options={{
           headerShown: false,
-          title: "설정",
+          title: "인기 차트",
         }}
       />
     </Stack>
