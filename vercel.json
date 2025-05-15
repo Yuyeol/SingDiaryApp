@@ -1,6 +1,5 @@
 {
   "buildCommand": "expo export --platform web",
-  "framework": "react",
   "outputDirectory": "dist",
   "routes": [
     { "handle": "filesystem" },
