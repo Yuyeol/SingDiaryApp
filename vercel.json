@@ -1,0 +1,9 @@
+{
+  "buildCommand": "expo export --platform web",
+  "framework": "react",
+  "outputDirectory": "dist",
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
