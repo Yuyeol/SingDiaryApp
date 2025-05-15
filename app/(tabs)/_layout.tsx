@@ -9,6 +9,7 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: colors.ORANGE_600,
         headerShown: false,
+        tabBarLabelPosition: "below-icon",
       }}
     >
       <Tabs.Screen
