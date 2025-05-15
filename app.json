@@ -19,8 +19,11 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "output": "single",
+      "favicon": "./assets/images/favicon.png",
+      "name": "SingDi",
+      "shortName": "SingDi",
+      "display": "standalone"
     },
     "plugins": [
       "expo-router",
