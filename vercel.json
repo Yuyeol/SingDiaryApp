@@ -1,5 +1,5 @@
 {
-  "buildCommand": "expo export --platform web",
+  "buildCommand": "expo export --platform web && cp -r web/manifest.json dist/ && cp -r assets/images/icon.png dist/icon-192.png && cp -r assets/images/icon.png dist/icon-512.png && node scripts/add-pwa-tags.js",
   "outputDirectory": "dist",
   "routes": [
     { "handle": "filesystem" },
